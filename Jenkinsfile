@@ -30,7 +30,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_IMAGE_NAME = "ismoon/department-service"
+        DOCKER_IMAGE_NAME = "leesy744/department-service"
         DOCKER_CREDENTIALS_ID = "dockerhub-access"
     }
 
