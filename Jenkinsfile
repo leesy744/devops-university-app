@@ -35,6 +35,18 @@ pipeline {
         DISCORD_WEBHOOK_CREDENTIALS_ID = "discord-webhook"
     }
 
+    stage('SonarQube Analysis') {
+        steps {
+            container('maven') {
+                withSonarQubeEnv('sonarqube-server') {
+                    sh """mvn verify sonar:sonar \
+                        -Dsonar.projectKey='DepartmentService' \
+                        -Dsonar.projectName='DepartmentService'"""
+                }  
+            }
+        }
+    }
+
     stages {
         stage('Maven Build') {
             steps {
@@ -88,39 +100,39 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            // string()
-            //   - 자격 증명 중 시크릿 텍스트를 가져온다.
-            withCredentials([string(
-                credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID,
-                variable: 'DISCORD_WEBHOOK_URL'
-            )]) {
-                discordSend description: """
-                제목 : ${currentBuild.displayName} 성공
-                결과 : ${currentBuild.result}
-                실행 시간 : ${currentBuild.duration / 1000}s
-                """,
-                result: currentBuild.currentResult,
-                title: "${env.JOB_NAME} : ${currentBuild.displayName}", 
-                webhookURL: "${DISCORD_WEBHOOK_URL}"
-            }
-        }
+//     post {
+//         success {
+//             // string()
+//             //   - 자격 증명 중 시크릿 텍스트를 가져온다.
+//             withCredentials([string(
+//                 credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID,
+//                 variable: 'DISCORD_WEBHOOK_URL'
+//             )]) {
+//                 discordSend description: """
+//                 제목 : ${currentBuild.displayName} 성공
+//                 결과 : ${currentBuild.result}
+//                 실행 시간 : ${currentBuild.duration / 1000}s
+//                 """,
+//                 result: currentBuild.currentResult,
+//                 title: "${env.JOB_NAME} : ${currentBuild.displayName}", 
+//                 webhookURL: "${DISCORD_WEBHOOK_URL}"
+//             }
+//         }
 
-        failure {
-withCredentials([string(
-                credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID,
-                variable: 'DISCORD_WEBHOOK_URL'
-            )]) {
-                discordSend description: """
-                제목 : ${currentBuild.displayName} 실패
-                결과 : ${currentBuild.result}
-                실행 시간 : ${currentBuild.duration / 1000}s
-                """,
-                result: currentBuild.currentResult,
-                title: "${env.JOB_NAME} : ${currentBuild.displayName}", 
-                webhookURL: "${DISCORD_WEBHOOK_URL}"
-            }
-        }
-    }
+//         failure {
+// withCredentials([string(
+//                 credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID,
+//                 variable: 'DISCORD_WEBHOOK_URL'
+//             )]) {
+//                 discordSend description: """
+//                 제목 : ${currentBuild.displayName} 실패
+//                 결과 : ${currentBuild.result}
+//                 실행 시간 : ${currentBuild.duration / 1000}s
+//                 """,
+//                 result: currentBuild.currentResult,
+//                 title: "${env.JOB_NAME} : ${currentBuild.displayName}", 
+//                 webhookURL: "${DISCORD_WEBHOOK_URL}"
+//             }
+//         }
+//     }
 }
