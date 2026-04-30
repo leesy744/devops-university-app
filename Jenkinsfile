@@ -35,19 +35,19 @@ pipeline {
         DISCORD_WEBHOOK_CREDENTIALS_ID = "discord-webhook"
     }
 
-    stage('SonarQube Analysis') {
-        steps {
-            container('maven') {
-                withSonarQubeEnv('sonarqube-server') {
-                    sh """mvn verify sonar:sonar \
-                        -Dsonar.projectKey='DepartmentService' \
-                        -Dsonar.projectName='DepartmentService'"""
-                }  
+    stages {
+        stage('SonarQube Analysis') {
+            steps {
+                container('maven') {
+                    withSonarQubeEnv('sonarqube-server') {
+                        sh """mvn verify sonar:sonar \
+                            -Dsonar.projectKey='DepartmentService' \
+                            -Dsonar.projectName='DepartmentService'"""
+                    }  
+                }
             }
         }
-    }
-
-    stages {
+        
         stage('Maven Build') {
             steps {
                 container('maven') {
