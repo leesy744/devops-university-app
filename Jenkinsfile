@@ -6,7 +6,6 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'ls -al'
-                sh 'mvn clean'
             }
         }
     }
