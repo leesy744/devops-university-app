@@ -56,6 +56,13 @@ pipeline {
 
                         sh 'docker logout'
 
+                        //withCredentials()
+                        // - 파이프라인에서 자격 증명을 사용할 수 있는 블록을 생성
+                        // usernamePassword()
+                        // - 자격 증명 중 사용자 이름과 비밀번호를 가져온다
+                        // - credentialsId 자격 증명을 식별할 수 있는 식별자를 작성함
+                        // - usernameVariable은 자격 증명에서 가져온 사용자 이름을 저장하는 환경 변수의 이름을 작성함
+                        // - passwordVariable은 자격 증명에서 가져온 비번을 저장하는 환경 변수의 이름을 작성
                         withCredentials([usernamePassword(
                             credentialsId: DOCKER_CREDENTIALS_ID,
                             usernameVariable: 'DOCKER_USERNAME',
