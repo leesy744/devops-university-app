@@ -103,7 +103,16 @@ pipeline {
         stage("Trigger university-k8s-manifests") {
             steps{
                 script {
-                    build job: 'university-k8s-manifests'
+                    def buildNumber = "${env.BUILD_NUMBER}"
+
+                    withEnv(["DOCKER_IMAGE_VERSION=${buildNumber}"]) {
+                        //다른 잡을 빌드하면서 파라미터를 전달
+                        build job: 'university-k8s-manifests',
+                            parameters: [
+                                string(name: 'DOCKER_IMAGE_VERSION', value: ${DOCKER_IMAGE_VERSION})
+                            ],
+                            wait: true   
+                    }
                 }
             }
         }
