@@ -109,7 +109,7 @@ pipeline {
                         //다른 잡을 빌드하면서 파라미터를 전달
                         build job: 'university-k8s-manifests',
                             parameters: [
-                                string(name: 'DOCKER_IMAGE_VERSION', value: ${DOCKER_IMAGE_VERSION})
+                                string(name: 'DOCKER_IMAGE_VERSION', value: "${DOCKER_IMAGE_VERSION}")
                             ],
                             wait: true   
                     }
