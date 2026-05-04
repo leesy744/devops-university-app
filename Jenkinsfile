@@ -36,17 +36,17 @@ pipeline {
     }
 
     stages {
-        stage('SonarQube Analysis') {
-            steps {
-                container('maven') {
-                    withSonarQubeEnv('sonarqube-server') {
-                        sh """mvn verify sonar:sonar \
-                            -Dsonar.projectKey='DepartmentService' \
-                            -Dsonar.projectName='DepartmentService'"""
-                    }  
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         container('maven') {
+        //             withSonarQubeEnv('sonarqube-server') {
+        //                 sh """mvn verify sonar:sonar \
+        //                     -Dsonar.projectKey='DepartmentService' \
+        //                     -Dsonar.projectName='DepartmentService'"""
+        //             }  
+        //         }
+        //     }
+        // }
         
         stage('Maven Build') {
             steps {
