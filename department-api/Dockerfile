@@ -2,7 +2,7 @@ FROM maven:3.9.15-eclipse-temurin-21-alpine AS builder
 COPY ./ .
 RUN [ "mvn", "package", "-DskipTests" ]
 FROM eclipse-temurin:21-jre-alpine-3.22
-LABEL maintainer="hong123 hong123@beyond.com"
+LABEL maintainer="hong123 <hong123@beyond.com>"
 LABEL version="1.0"
 COPY --from=builder ./target/department-service-0.0.1-SNAPSHOT.jar /root
 ARG BUILD_PROFILE=dev
